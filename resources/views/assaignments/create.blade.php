@@ -3,19 +3,9 @@
 
 @section('content')
 <div id="main">
-    <div>
-        <input type="radio" id="draw" name="mode">
-        <label for="draw">ペン</label>
-        <input type="radio" id="erase" name="mode">
-        <label for="draw">消しゴム</label>
-    </div>
-    <div>
-        <input type="button" id="downloadPng">
-    </div>
-    <br>
-
     <!-- お絵描きエリアの設定 -->
     <div class="flex">
+        <button id ="save-img-button" type="button" class="btn btn-primary">画像で保存</button>
         <div id="sample" >
             <canvas id="canvas"></canvas>
         </div>
