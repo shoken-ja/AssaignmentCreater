@@ -1,0 +1,100 @@
+div.contextmenu {
+	position:absolute;
+	top:0;
+	left:0;
+	box-shadow:2px 2px 3px rgba(0, 0, 0, 0.5);
+	display:none;
+	border:1px solid #999;
+	padding:3px;
+	background-color:#fafafa;
+}
+
+*html div.contextmenu {
+	width:200px;
+}
+
+*+html div.contextmenu {
+	width:200px;
+}
+
+	/* メニュータイトル見出し */
+	div.contextmenu p.title {
+		margin:0 0 3px;
+		border-bottom:1px solid #aaa;
+		padding:5px 10px;
+		background-color:#eee;
+	}
+
+	div.contextmenu ul.menu-items {
+		margin:0;
+		padding:0;
+	}
+
+		div.contextmenu ul.menu-items li.menu-item {
+			position:relative;
+			margin:0;
+			padding:2px 0;
+			list-style:none;
+		}
+
+		/* 境界 */
+		div.contextmenu ul.menu-items li.menu-item.divide {
+			border-top:1px dashed #aaa;
+		}
+
+			/* ボタン */
+			div.contextmenu ul.menu-items li.menu-item button {
+				border:1px solid transparent;
+				border-radius:2px;
+				padding:3px 20px;
+				width:100%;
+				background:transparent;
+				cursor:pointer;
+				text-align:left;
+				transition:border 0.2s ease 0s, background-color 0.2s ease 0s;
+			}
+
+			div.contextmenu ul.menu-items li.menu-item button:hover {
+				border:1px solid #06d;
+				background-color:#e6f1ff;
+			}
+
+			div.contextmenu ul.menu-items li.menu-item.disabled button,
+			div.contextmenu ul.menu-items li.menu-item.disabled button:hover {
+				border:1px solid transparent;
+				background:transparent;
+				cursor:default;
+			}
+
+			div.contextmenu ul.menu-items li.menu-item.sub-menu-open > button,
+			div.contextmenu ul.menu-items li.menu-item.sub-menu-close > button {
+				background-repeat:no-repeat;
+				background-position:95% 50%;
+			}
+
+				div.contextmenu ul.menu-items li.menu-item button span.icon {
+					margin:0 5px 0 -16px;
+					vertical-align:middle;
+				}
+
+		/* サブメニュー */
+		div.contextmenu ul.menu-items li.menu-item ul.sub-menu {
+			position:absolute;
+			top:0;
+			left:100%;
+			box-shadow:2px 2px 3px rgba(0, 0, 0, 0.5);
+			display:none;
+			border:1px solid #999;
+			padding:3px;
+			min-width:150px;
+			background-color:#fafafa;
+		}
+
+		div.contextmenu ul.menu-items li.menu-item.sub-menu-open ul.sub-menu {
+			display:block;
+		}
+
+/* メニュー表示 */
+div.contextmenu.open {
+	display:block;
+}
