@@ -848,6 +848,25 @@ function remakeRoot(player, linePoint, r){
     }
 }
 
+function clickPlayName(playerName){
+    if(!playerName.classList.contains('on')){
+        playerName.classList.add('on');
+        var txt = playerName.textContent;
+        playerName.innerHTML = '<input type="text" value="' + txt + '" style="width:400px;" /> ';
+        playerName.children[0].focus();
+
+        playerName.addEventListener('blur', function(){
+            var newTxt = playerName.children[0].value;
+            if(newTxt == ''){
+                newTxt = txt;
+            }
+            playerName.innerHTML = newTxt;
+            playerName.classList.remove('on');
+            playName = newTxt;
+        }, true);
+    }
+}
+
 function playerNameClick(playerName){
     if(!playerName.classList.contains('on')){
         playerName.classList.add('on');
@@ -874,25 +893,6 @@ function playerNameClick(playerName){
             }
         }, true);
     }
-}
-
-function clickPlayName(playerName){
-    if(!playerName.classList.contains('on')){
-        playerName.classList.add('on');
-        var txt = playerName.textContent;
-        playerName.innerHTML = '<input type="text" value="' + txt + '" style="width:400px;" /> ';
-        playerName.children[0].focus();
-
-        playerName.addEventListener('blur', function(){
-            var newTxt = playerName.children[0].value;
-            if(newTxt == ''){
-                newTxt = txt;
-            }
-            playerName.innerHTML = newTxt;
-            playerName.classList.remove('on');
-            playName = newTxt;
-        }, true);
-    } 
 }
 
 function getOwnUrl() {

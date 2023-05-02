@@ -17,12 +17,15 @@
     width: 20%;
 }
 
+#play-name {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+}
+
 h3{
     margin-block-start: 0em;
     margin-block-end: 1.5em;
 }
 
-#play-name {
-    margin-block-start: 1em;
-    margin-block-end: 1em; 
-}
+
+
