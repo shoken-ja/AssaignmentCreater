@@ -892,7 +892,7 @@ function clickPlayName(playerName){
             playerName.classList.remove('on');
             playName = newTxt;
         }, true);
-    }
+    } 
 }
 
 function getOwnUrl() {
