@@ -5,7 +5,12 @@
 <div id="main">
     <!-- お絵描きエリアの設定 -->
     <div class="flex">
-        <button id ="save-img-button" type="button" class="btn btn-primary">画像で保存</button>
+        <button id ="save-img-button" type="button" class="btn btn-primary" onclick="saveImg()">画像で保存</button>
+        <button id ="redo-button" type="button" class="btn btn-primary" onclick="undo()">元に戻す</button>
+        <button id ="undo-button" type="button" class="btn btn-primary" onclick="redo()">やり直し</button>
+    </div>
+    <h3 id="play-name" onclick="clickPlayName(this)">（クリックしてプレー名を編集）</h3>
+    <div class="flex">
         <div id="sample" >
             <canvas id="canvas"></canvas>
         </div>

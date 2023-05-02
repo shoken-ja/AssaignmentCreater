@@ -74,6 +74,8 @@ var deffencePlayerList = [];
 var historyList = [];
 var historyPoint = 0;
 
+var playName = "play";
+
 (function(){
     var playerInfo = document.getElementById('offencePlayerInfo');
     const offencePlayerNameList = ["LT", "LG", "C", "RG", "RT", "X", "Z", "S", "Y", "H", "QB"];
@@ -148,18 +150,12 @@ document.addEventListener('keyup', ({ keyCode, ctrlKey } = event) => {
 
     // Check pressed button is Z - Ctrl+Z.
     if (keyCode === 90) {
-        if(historyPoint + 1 < historyList.length){
-            historyPoint += 1;
-            unredo(historyPoint);
-        }
+        redo();
     }
 
     // Check pressed button is Y - Ctrl+Y.
     if (keyCode === 89) {
-        if(historyPoint){
-            historyPoint -= 1;
-            unredo(historyPoint);
-        }
+        undo();
     }
 })
 
@@ -255,28 +251,6 @@ var contextMenuObj = new ContextMenu({
                 pastRoot(activePlayer);
             }
 		},
-		{
-			text    : '先端をブロックへ',
-            action  : function() {
-
-                makeBlockLine(activePlayer.line[activePlayer.line.length - 1]);
-            },
-
-			subMenu : [
-				{
-					text    : '直線',
-					action  : function() {
-                        isStraightMode = true;
-					}
-				},
-				{
-					text    : '曲線',
-					action  : function() {
-                        isStraightMode = false;
-					}
-				}
-			]
-		}
 	]
 });
 
@@ -902,6 +876,25 @@ function playerNameClick(playerName){
     }
 }
 
+function clickPlayName(playerName){
+    if(!playerName.classList.contains('on')){
+        playerName.classList.add('on');
+        var txt = playerName.textContent;
+        playerName.innerHTML = '<input type="text" value="' + txt + '" style="width:400px;" /> ';
+        playerName.children[0].focus();
+
+        playerName.addEventListener('blur', function(){
+            var newTxt = playerName.children[0].value;
+            if(newTxt == ''){
+                newTxt = txt;
+            }
+            playerName.innerHTML = newTxt;
+            playerName.classList.remove('on');
+            playName = newTxt;
+        }, true);
+    }
+}
+
 function getOwnUrl() {
     var url;
     var scripts = document.getElementsByTagName("script");
@@ -978,6 +971,20 @@ function unredo(num){
             remakeRoot(player, historys[i + 11][3], null);
         }
 
+    }
+}
+
+function undo(){
+    if(historyPoint + 1 < historyList.length){
+        historyPoint += 1;
+        unredo(historyPoint);
+    }
+}
+
+function redo(){
+    if(historyPoint){
+        historyPoint -= 1;
+        unredo(historyPoint);
     }
 }
 
@@ -1074,4 +1081,11 @@ function makePlayer(historys){
             deffencePlayerList.push(player);
         }
     }());
+}
+
+function saveImg(){
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL("image/png", 0.75); // PNGなら"image/png"
+    a.download = playName + ".png";
+    a.click();
 }
