@@ -150,12 +150,12 @@ document.addEventListener('keyup', ({ keyCode, ctrlKey } = event) => {
 
     // Check pressed button is Z - Ctrl+Z.
     if (keyCode === 90) {
-        redo();
+        undo();
     }
 
     // Check pressed button is Y - Ctrl+Y.
     if (keyCode === 89) {
-        undo();
+        redo();
     }
 })
 
