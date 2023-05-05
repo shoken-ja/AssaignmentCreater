@@ -17,10 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('assaignments', function () {
-    return view('assaignments.index');
+Route::get('assignments', function () {
+    return view('assignments.index');
 });
 
 Route::get('create', function () {
-    return view('assaignments.create');
+    return view('assignments.create');
 });
+
+Route::post('saveAssignment', 'App\Http\Controllers\AssignmentController@saveAssignmet')->name('assignment.saveAssinment');
