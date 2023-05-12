@@ -1,13 +1,16 @@
 // 本体部分
 
+//キャンバスの設定
 var canvas =  new fabric.Canvas('canvas', {
     isDrawingMode: false,
     backgroundColor: 'rgb(250,250,250)',
     preserveObjectStacking: true
 });
 
+//キャンバスの横幅を取得
 var sampleElement = document.getElementById('sample');
 
+//取得した横幅からキャンバスを676：510に設定
 canvas.setDimensions({width: sampleElement.clientWidth, height: sampleElement.clientWidth /676 *510});
 
 var ownURL = getOwnUrl().replace("js/", "");
@@ -230,11 +233,12 @@ var contextMenuObj = new ContextMenu({
                     isBlockMode = false;
                     canvas.remove(activePlayer.arrow.r, activePlayer.arrow);
                     var arrow = makeArrow(activePlayer.line[activePlayer.line.length - 1]);
-                    canvas.add(arrow);
+                    makeHistory();
                     tipModeButton.textContent = "先端をブロックへ"
                 }else{
                     isBlockMode = true;
                     makeBlockLine(activePlayer.line[activePlayer.line.length - 1]);
+                    makeHistory();
                     tipModeButton.textContent = "先端を矢印へ"
                 }
             }
@@ -295,23 +299,12 @@ function makeOffenceLine(name, x){
     return l;
 }
 
-function makeOffenceSkill(name, x, y) {
-    var player = new offenceSKill(name,{
-        left: x,
-        top: y,
-        name: name
-    })
-
-    canvas.add(player);
-}
-
 function makeRoot(player, dx, dy, controlPoint) {
     var line = makeLineFromPlayer(player, dx, dy, controlPoint);
 
     var arrow = makeArrow(line);
-    arrow.name = player.name;
 
-    canvas.add(arrow)
+
 }
 
 function makeLineFromPlayer(player, dx, dy, controlPoint) {
@@ -325,14 +318,12 @@ function makeLineFromPlayer(player, dx, dy, controlPoint) {
     if(controlPoint == undefined){
         line.path[1][1] = ( line.path[0][1] + line.path[1][3]) / 2;
         line.path[1][2] = ( line.path[0][2] + line.path[1][4]) / 2;
-        console.log("underfined");
     }else{
         line.path[1][1] = controlPoint[0] + player.left;
         line.path[1][2] = controlPoint[1] + player.top;
     }
 
     line.num = 0;
-    line.selectable = true;
     canvas.addline(line);
 
     line.player = player;
@@ -363,7 +354,9 @@ function makeArrow(line){
     arrow.selectable = false;
     line.player.arrow = arrow;
     line.player.isBlockLine = false;
+    canvas.add(arrow);
     return arrow
+
 }
 
 function makeBlockLine(line){
@@ -536,8 +529,6 @@ function addRoot(line1, lineArray) {
     var arrow = makeArrow(line2);
     arrow.name = line1.player.name;
 
-    canvas.addline(arrow);
-
     console.log("addRoot");
 }
 
@@ -546,6 +537,9 @@ function removeRoot(player){
         canvas.remove(line, line.p1, line.p2, line.p0);
     });
     canvas.remove(player.arrow);
+    if(player.isBlockLine){
+        canvas.remove(player.arrow.r);
+    }
     player.line = [];
     player.linePoint = [];
     player.isBlockLine = false;
@@ -816,6 +810,7 @@ function copyRoot(player){
 
 function pastRoot(player){
     remakeRoot(player, copyedRoot[0], copyedRoot[1]);
+    makeHistory();
 }
 
 function remakeRoot(player, linePoint, r){
@@ -863,6 +858,7 @@ function clickPlayName(playerName){
             playerName.innerHTML = newTxt;
             playerName.classList.remove('on');
             playName = newTxt;
+            makeHistory();
         }, true);
     }
 }
@@ -900,7 +896,7 @@ function getOwnUrl() {
     var scripts = document.getElementsByTagName("script");
     var i = scripts.length;
     while (i--) {
-        var match = scripts[i].src.match(/(^|.*\/)creater\.js$/); //sampleのところは自身のjsファイル名に変更する
+        var match = scripts[i].src.match(/(^|.*\/)creater\.js$/);
         if (match) {
             url = match[1];
             break;
@@ -1085,7 +1081,7 @@ function makePlayer(historys){
 
 function saveImg(){
     const a = document.createElement("a");
-    a.href = canvas.toDataURL("image/png", 0.75); // PNGなら"image/png"
+    a.href = canvas.toDataURL("image/png", 0.75);
     a.download = playName + ".png";
     a.click();
 }
